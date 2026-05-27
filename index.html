@@ -443,7 +443,11 @@
         <p>Tell us about your project and we'll get back to you within 24 hours</p>
       </div>
       <div class="contact-grid">
-        <form class="contact-form" id="contactForm">
+        <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+          <input type="hidden" name="access_key" value="db9c6fc3-172b-4b33-b74d-4e3e37bc7d4c">
+          <input type="hidden" name="subject" value="New Inquiry - Inclusive Cloud Solutions">
+          <input type="hidden" name="redirect" value="https://atinclusivecloud.in">
+          <input type="checkbox" name="botcheck" class="hidden" style="display:none">
           <div class="form-row">
             <div class="form-group">
               <label for="name">Full Name</label>

@@ -44,29 +44,39 @@ animateElements.forEach(el => observer.observe(el));
 // ---- Contact form ----
 const contactForm = document.getElementById('contactForm');
 
-contactForm.addEventListener('submit', (e) => {
+contactForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const formData = new FormData(contactForm);
   const data = Object.fromEntries(formData.entries());
 
-  // Basic validation
   if (!data.name || !data.email) {
     showToast('Please fill in all required fields.', true);
     return;
   }
 
-  // Simulate submission
   const btn = contactForm.querySelector('button[type="submit"]');
   btn.textContent = 'Sending...';
   btn.disabled = true;
 
-  setTimeout(() => {
-    showToast('Message sent! We\'ll get back to you within 24 hours.');
-    contactForm.reset();
-    btn.textContent = 'Send Message';
-    btn.disabled = false;
-  }, 1200);
+  try {
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: formData
+    });
+    const result = await res.json();
+    if (result.success) {
+      showToast('Message sent! We\'ll get back to you within 24 hours.');
+      contactForm.reset();
+    } else {
+      showToast('Something went wrong. Please try again.', true);
+    }
+  } catch {
+    showToast('Network error. Please try again.', true);
+  }
+
+  btn.textContent = 'Send Message';
+  btn.disabled = false;
 });
 
 function showToast(message, isError = false) {
